@@ -22,22 +22,22 @@ USE ieee.std_logic_1164.all;
 
 LIBRARY work;
 
-ENTITY MultipleInput IS 
+ENTITY multiple_input IS 
 	PORT
 	(
-		CLOCK :  IN  STD_LOGIC;
+		CLK_A_l :  IN  STD_LOGIC;
 		FCIN1 :  IN  STD_LOGIC;
 		FCIN2 :  IN  STD_LOGIC;
 		FCIN3 :  IN  STD_LOGIC;
 		FCIN4 :  IN  STD_LOGIC;
+		P0 :  OUT  STD_LOGIC;
 		P1 :  OUT  STD_LOGIC;
 		P2 :  OUT  STD_LOGIC;
-		P3 :  OUT  STD_LOGIC;
-		P0 :  OUT  STD_LOGIC
+		P3 :  OUT  STD_LOGIC
 	);
-END MultipleInput;
+END multiple_input;
 
-ARCHITECTURE bdf_type OF MultipleInput IS 
+ARCHITECTURE bdf_type OF multiple_input IS 
 
 COMPONENT dff_4013
 	PORT(set : IN STD_LOGIC;
@@ -181,7 +181,7 @@ SYNTHESIZED_WIRE_0 <= FCIN1 OR SYNTHESIZED_WIRE_25;
 
 SYNTHESIZED_WIRE_20 <= FCIN2 OR SYNTHESIZED_WIRE_26;
 
-CLK <= CLOCK;
+CLK <= CLK_A_l;
 
 GND <= '0';
 END bdf_type;
