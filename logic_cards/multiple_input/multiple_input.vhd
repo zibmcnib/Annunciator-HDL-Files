@@ -14,8 +14,8 @@
 -- agreement for further details.
 
 -- PROGRAM		"Quartus Prime"
--- VERSION		"Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition"
--- CREATED		"Fri Oct 20 18:20:48 2017"
+-- VERSION		"Version 17.0.0 Build 595 04/25/2017 SJ Standard Edition"
+-- CREATED		"Fri Oct 27 20:17:17 2017"
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.all; 
@@ -25,163 +25,82 @@ LIBRARY work;
 ENTITY multiple_input IS 
 	PORT
 	(
-		CLK_A_l :  IN  STD_LOGIC;
-		FCIN1 :  IN  STD_LOGIC;
-		FCIN2 :  IN  STD_LOGIC;
-		FCIN3 :  IN  STD_LOGIC;
-		FCIN4 :  IN  STD_LOGIC;
-		P0 :  OUT  STD_LOGIC;
-		P1 :  OUT  STD_LOGIC;
-		P2 :  OUT  STD_LOGIC;
-		P3 :  OUT  STD_LOGIC
+		fcin1 :  IN  STD_LOGIC;
+		fcin2 :  IN  STD_LOGIC;
+		fcin3 :  IN  STD_LOGIC;
+		fcin4 :  IN  STD_LOGIC;
+		phase_a_l :  IN  STD_LOGIC;
+		no_nc_jumper1 :  IN  STD_LOGIC;
+		no_nc_jumper2 :  IN  STD_LOGIC;
+		no_nc_jumper3 :  IN  STD_LOGIC;
+		no_nc_jumper4 :  IN  STD_LOGIC;
+		p01_l :  OUT  STD_LOGIC;
+		p02_l :  OUT  STD_LOGIC;
+		p03_l :  OUT  STD_LOGIC;
+		p04_l :  OUT  STD_LOGIC
 	);
 END multiple_input;
 
 ARCHITECTURE bdf_type OF multiple_input IS 
 
-COMPONENT dff_4013
-	PORT(set : IN STD_LOGIC;
-		 reset : IN STD_LOGIC;
-		 d : IN STD_LOGIC;
-		 clock : IN STD_LOGIC;
-		 q : OUT STD_LOGIC;
-		 q_bar : OUT STD_LOGIC
+COMPONENT multiple_input_channel
+	PORT(phase_a_l : IN STD_LOGIC;
+		 no_nc : IN STD_LOGIC;
+		 fcin : IN STD_LOGIC;
+		 p : OUT STD_LOGIC
 	);
 END COMPONENT;
 
-SIGNAL	CLK :  STD_LOGIC;
-SIGNAL	GND :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_0 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_24 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_25 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_3 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_4 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_26 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_6 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_7 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_9 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_10 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_11 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_27 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_14 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_15 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_16 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_17 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_18 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_19 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_20 :  STD_LOGIC;
-SIGNAL	SYNTHESIZED_WIRE_21 :  STD_LOGIC;
+SIGNAL	clk :  STD_LOGIC;
+SIGNAL	fc1 :  STD_LOGIC;
+SIGNAL	fc2 :  STD_LOGIC;
+SIGNAL	fc3 :  STD_LOGIC;
+SIGNAL	fc4 :  STD_LOGIC;
+SIGNAL	j1 :  STD_LOGIC;
+SIGNAL	j2 :  STD_LOGIC;
+SIGNAL	j3 :  STD_LOGIC;
+SIGNAL	j4 :  STD_LOGIC;
 
 
 BEGIN 
 
 
 
-b2v_inst : dff_4013
-PORT MAP(set => GND,
-		 reset => GND,
-		 d => SYNTHESIZED_WIRE_0,
-		 clock => CLK,
-		 q => SYNTHESIZED_WIRE_4,
-		 q_bar => SYNTHESIZED_WIRE_18);
+b2v_inst : multiple_input_channel
+PORT MAP(phase_a_l => clk,
+		 no_nc => j1,
+		 fcin => fc1,
+		 p => p01_l);
 
 
-SYNTHESIZED_WIRE_21 <= FCIN3 OR SYNTHESIZED_WIRE_24;
+b2v_inst1 : multiple_input_channel
+PORT MAP(phase_a_l => clk,
+		 no_nc => j2,
+		 fcin => fc2,
+		 p => p02_l);
 
 
-SYNTHESIZED_WIRE_3 <= NOT(CLK AND SYNTHESIZED_WIRE_25);
+b2v_inst2 : multiple_input_channel
+PORT MAP(phase_a_l => clk,
+		 no_nc => j3,
+		 fcin => fc3,
+		 p => p03_l);
 
 
-P0 <= NOT(SYNTHESIZED_WIRE_3 AND SYNTHESIZED_WIRE_4);
+b2v_inst3 : multiple_input_channel
+PORT MAP(phase_a_l => clk,
+		 no_nc => j4,
+		 fcin => fc4,
+		 p => p04_l);
 
+clk <= phase_a_l;
+j1 <= no_nc_jumper1;
+fc1 <= fcin1;
+j2 <= no_nc_jumper2;
+fc2 <= fcin2;
+j3 <= no_nc_jumper3;
+fc3 <= fcin3;
+j4 <= no_nc_jumper4;
+fc4 <= fcin4;
 
-SYNTHESIZED_WIRE_6 <= NOT(CLK AND SYNTHESIZED_WIRE_26);
-
-
-P1 <= NOT(SYNTHESIZED_WIRE_6 AND SYNTHESIZED_WIRE_7);
-
-
-SYNTHESIZED_WIRE_9 <= NOT(CLK AND SYNTHESIZED_WIRE_24);
-
-
-P2 <= NOT(SYNTHESIZED_WIRE_9 AND SYNTHESIZED_WIRE_10);
-
-
-b2v_inst17 : dff_4013
-PORT MAP(set => FCIN3,
-		 reset => GND,
-		 d => FCIN3,
-		 clock => SYNTHESIZED_WIRE_11,
-		 q_bar => SYNTHESIZED_WIRE_24);
-
-
-SYNTHESIZED_WIRE_17 <= FCIN4 OR SYNTHESIZED_WIRE_27;
-
-
-SYNTHESIZED_WIRE_14 <= NOT(CLK AND SYNTHESIZED_WIRE_27);
-
-
-
-P3 <= NOT(SYNTHESIZED_WIRE_14 AND SYNTHESIZED_WIRE_15);
-
-
-b2v_inst21 : dff_4013
-PORT MAP(set => FCIN4,
-		 reset => GND,
-		 d => FCIN4,
-		 clock => SYNTHESIZED_WIRE_16,
-		 q_bar => SYNTHESIZED_WIRE_27);
-
-
-b2v_inst22 : dff_4013
-PORT MAP(set => GND,
-		 reset => GND,
-		 d => SYNTHESIZED_WIRE_17,
-		 clock => CLK,
-		 q => SYNTHESIZED_WIRE_15,
-		 q_bar => SYNTHESIZED_WIRE_16);
-
-
-b2v_inst3 : dff_4013
-PORT MAP(set => FCIN1,
-		 reset => GND,
-		 d => FCIN1,
-		 clock => SYNTHESIZED_WIRE_18,
-		 q_bar => SYNTHESIZED_WIRE_25);
-
-
-b2v_inst4 : dff_4013
-PORT MAP(set => FCIN2,
-		 reset => GND,
-		 d => FCIN2,
-		 clock => SYNTHESIZED_WIRE_19,
-		 q_bar => SYNTHESIZED_WIRE_26);
-
-
-b2v_inst5 : dff_4013
-PORT MAP(set => GND,
-		 reset => GND,
-		 d => SYNTHESIZED_WIRE_20,
-		 clock => CLK,
-		 q => SYNTHESIZED_WIRE_7,
-		 q_bar => SYNTHESIZED_WIRE_19);
-
-
-b2v_inst6 : dff_4013
-PORT MAP(set => GND,
-		 reset => GND,
-		 d => SYNTHESIZED_WIRE_21,
-		 clock => CLK,
-		 q => SYNTHESIZED_WIRE_10,
-		 q_bar => SYNTHESIZED_WIRE_11);
-
-
-SYNTHESIZED_WIRE_0 <= FCIN1 OR SYNTHESIZED_WIRE_25;
-
-
-SYNTHESIZED_WIRE_20 <= FCIN2 OR SYNTHESIZED_WIRE_26;
-
-CLK <= CLK_A_l;
-
-GND <= '0';
 END bdf_type;
